@@ -1,0 +1,13 @@
+{
+  "name": "SolidJS",
+  "version": "1.0.0",
+  "description": "Simple JS framework to build raw HTML templates with dynamic variables",
+  "main": "index.js",
+  "author": "Dario Sechi <dario.sechi.7900@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "fs-extra": "^7.0.1",
+    "lodash": "^4.17.11",
+    "standard": "^12.0.1"
+  }
+}
