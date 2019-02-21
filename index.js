@@ -90,8 +90,9 @@ class SolidJS {
     return template
   }
 
-  write () {
-    fs.writeFileSync('./index.html', this.template, 'utf8')
+  compile () {
+    this.parse()
+    fs.writeFileSync('./build/index.html', this.template, 'utf8')
   }
 }
 
@@ -116,5 +117,4 @@ const data = {
 }
 
 const solidJS = new SolidJS('./template.html', data)
-solidJS.parse()
-solidJS.write()
+solidJS.compile()
