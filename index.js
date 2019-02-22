@@ -18,11 +18,11 @@ class SolidJS {
     this.template = fs.readFileSync(_template, 'utf8')
   }
 
-  parse () {
+  parseComponents (_template, _components) {
     let components, template
 
     // Load the template in a local variable
-    template = this.template
+    template = _template
 
     // Match all the components inside the template
     components = template.match(regex.get.component)
@@ -50,7 +50,7 @@ class SolidJS {
         // Cycle through the cycle variable
         _.forEach(this.variables[cycle], (variable, index) => {
           // Isolate the component inside a temporary one
-          temporaryComponent = this.components[name]
+          temporaryComponent = _components[name]
 
           // Parse the variables of this component with the current variables
           temporaryComponent = this.parseVariables(temporaryComponent, variable)
@@ -60,12 +60,11 @@ class SolidJS {
         })
       } else {
       // Replace the component declaration with its code
-        template = template.replace(component, this.components[name])
+        template = template.replace(component, _components[name])
       }
     })
 
-    // Save the result inside the real variable
-    this.template = template
+    return template
   }
 
   parseVariables (_template, _variables) {
@@ -91,30 +90,13 @@ class SolidJS {
   }
 
   compile () {
-    this.parse()
-    fs.writeFileSync('./build/index.html', this.template, 'utf8')
+    let build
+
+    build = this.parseComponents(this.template, this.components)
+    build = this.parseVariables(build, this.variables)
+
+    fs.writeFileSync('./build/index.html', build, 'utf8')
   }
 }
 
-const data = {
-  variables: {
-    a: true,
-    b: false,
-    cards: [
-      {
-        a: 0,
-        b: 1
-      },
-      {
-        a: 2,
-        b: 3
-      }
-    ]
-  },
-  components: {
-    'Card': './card.html'
-  }
-}
-
-const solidJS = new SolidJS('./template.html', data)
-solidJS.compile()
+module.exports = SolidJS
