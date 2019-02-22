@@ -2,7 +2,7 @@ const fs = require('fs-extra')
 const regex = require('./regex')
 const _ = require('lodash')
 
-class SolidJS {
+class SolidTemplateBuilder {
   constructor (_template, _data) {
     let variables, components
 
@@ -15,7 +15,8 @@ class SolidJS {
 
     this.variables = variables
     this.components = components
-    this.template = fs.readFileSync(_template, 'utf8')
+    this.template = fs.readFileSync(`./${_template}`, 'utf8')
+    this.name = _template
   }
 
   parseComponents (_template, _components) {
@@ -90,13 +91,17 @@ class SolidJS {
   }
 
   compile () {
-    let build
+    let build, path
 
     build = this.parseComponents(this.template, this.components)
     build = this.parseVariables(build, this.variables)
 
-    fs.writeFileSync('./build/index.html', build, 'utf8')
+    path = `./build/${this.name}`
+
+    if (!fs.existsSync(path)) fs.mkdirSync(path)
+
+    fs.writeFileSync(path, build, 'utf8')
   }
 }
 
-module.exports = SolidJS
+module.exports = SolidTemplateBuilder
