@@ -7,7 +7,7 @@ module.exports = {
   },
   'clear': {
     'variable': new RegExp(/\{\s|\s\}/gm),
-    'component': new RegExp(/(<|\s.+\/>)/gm),
+    'component': new RegExp(/(<|\s.{0,}\/>)/gm),
     'for': new RegExp(/(for=('|")|('|"))/gm)
   }
 }

@@ -36,7 +36,7 @@ class SolidTemplateBuilder {
       name = component.replace(regex.clear.component, '')
 
       // Get the variable name for the for cycle
-      cycle = component.match(regex.get.for)
+      cycle = component.match(regex.get.for) || []
       cycle = cycle.length > 0 ? cycle[0].replace(regex.clear.for, '') : false
 
       if (cycle) {
