@@ -1,6 +1,6 @@
 {
   "name": "solid-template-builder",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Simple JS framework to build raw HTML templates with dynamic variables",
   "main": "index.js",
   "author": "Dario Sechi <dario.sechi.7900@gmail.com>",

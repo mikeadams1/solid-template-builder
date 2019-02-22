@@ -51,7 +51,7 @@ class SolidTemplateBuilder {
         // Cycle through the cycle variable
         _.forEach(this.variables[cycle], (variable, index) => {
           // Isolate the component inside a temporary one
-          temporaryComponent = _components[name]
+          temporaryComponent = _.get(_components, name)
 
           // Parse the variables of this component with the current variables
           temporaryComponent = this.parseVariables(temporaryComponent, variable)
@@ -61,7 +61,7 @@ class SolidTemplateBuilder {
         })
       } else {
       // Replace the component declaration with its code
-        template = template.replace(component, _components[name])
+        template = template.replace(component, _.get(_components, name))
       }
     })
 
@@ -84,7 +84,7 @@ class SolidTemplateBuilder {
       key = variable.replace(regex.clear.variable, '')
 
       // Replace the variable declaration with its key
-      template = template.replace(variable, _variables[key])
+      template = template.replace(variable, _.get(_variables, key))
     })
 
     return template
