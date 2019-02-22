@@ -2,7 +2,8 @@ module.exports = {
   'get': {
     'variable': new RegExp(/\{.+\}/gm),
     'component': new RegExp(/<[A-Z].+\/>/gm),
-    'for': new RegExp(/for=('|").+('|")/gm)
+    'for': new RegExp(/for=('|").+('|")/gm),
+    'name': new RegExp(/[a-zA-Z]+.html/gm)
   },
   'clear': {
     'variable': new RegExp(/\{\s|\s\}/gm),

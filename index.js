@@ -15,8 +15,8 @@ class SolidTemplateBuilder {
 
     this.variables = variables
     this.components = components
-    this.template = fs.readFileSync(`./${_template}`, 'utf8')
-    this.name = _template
+    this.template = fs.readFileSync(_template, 'utf8')
+    this.name = _template.match(regex.get.name)[0]
   }
 
   parseComponents (_template, _components) {
