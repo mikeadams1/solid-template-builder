@@ -91,16 +91,14 @@ class SolidTemplateBuilder {
   }
 
   compile () {
-    let build, path
+    let build
 
     build = this.parseComponents(this.template, this.components)
     build = this.parseVariables(build, this.variables)
 
-    path = `./build/${this.name}`
+    if (!fs.existsSync('./build')) fs.mkdirSync('./build')
 
-    if (!fs.existsSync(path)) fs.mkdirSync(path)
-
-    fs.writeFileSync(path, build, 'utf8')
+    fs.writeFileSync(`./build/${this.name}`, build, 'utf8')
   }
 }
 
