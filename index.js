@@ -15,7 +15,7 @@ class SolidTemplateBuilder {
 
     this.variables = variables
     this.components = components
-    this.template = fs.readFileSync(_template, 'utf8')
+    this.template = _template
     this.name = _template.match(regex.get.name)[0]
   }
 
@@ -91,9 +91,11 @@ class SolidTemplateBuilder {
   }
 
   compile () {
-    let build
+    let source, build
 
-    build = this.parseComponents(this.template, this.components)
+    source = fs.readFileSync(this.template, 'utf8')
+
+    build = this.parseComponents(source, this.components)
     build = this.parseVariables(build, this.variables)
 
     if (!fs.existsSync('./build')) fs.mkdirSync('./build')
