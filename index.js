@@ -43,13 +43,13 @@ class SolidTemplateBuilder {
         let multiples = ''; let temporaryComponent
 
         // Replace the single <Component /> element with multiple elements like this <Component1 />..<Component2 />
-        this.variables[cycle].forEach((v, i) => { multiples += `<${name}${i} />` })
+        _.get(this.variables, cycle).forEach((v, i) => { multiples += `<${name}${i} />` })
 
         // Replace the single <Component /> in the template with the multiples
         template = template.replace(component, multiples)
 
         // Cycle through the cycle variable
-        _.forEach(this.variables[cycle], (variable, index) => {
+        _.forEach(_.get(this.variables, cycle), (variable, index) => {
           // Isolate the component inside a temporary one
           temporaryComponent = _.get(_components, name)
 
