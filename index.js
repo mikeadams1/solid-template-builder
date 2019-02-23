@@ -99,6 +99,8 @@ class SolidTemplateBuilder {
     if (!fs.existsSync('./build')) fs.mkdirSync('./build')
 
     fs.writeFileSync(`./build/${this.name}`, build, 'utf8')
+
+    return build
   }
 }
 
