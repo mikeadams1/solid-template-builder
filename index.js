@@ -1,16 +1,16 @@
 const fs = require('fs-extra')
 const regex = require('./regex')
-const _ = require('lodash')
+const { has, forEach, set, get } = require('lodash')
 
 class SolidTemplateBuilder {
   constructor (_template, _data) {
     let variables, components
 
-    variables = _.has(_data, 'variables') ? _data.variables : {}
-    components = _.has(_data, 'components') ? _data.components : {}
+    variables = has(_data, 'variables') ? _data.variables : {}
+    components = has(_data, 'components') ? _data.components : {}
 
-    _.forEach(components, (component, name) => {
-      _.set(components, name, fs.readFileSync(component, 'utf8'))
+    forEach(components, (component, name) => {
+      set(components, name, fs.readFileSync(component, 'utf8'))
     })
 
     this.variables = variables
@@ -29,7 +29,7 @@ class SolidTemplateBuilder {
     components = template.match(regex.get.component)
 
     // Cycle through all the components that have been found
-    _.forEach(components, (component, index) => {
+    forEach(components, (component, index) => {
       let name, cycle
 
       // Get the name of the component
@@ -43,15 +43,15 @@ class SolidTemplateBuilder {
         let multiples = ''; let temporaryComponent
 
         // Replace the single <Component /> element with multiple elements like this <Component1 />..<Component2 />
-        _.get(this.variables, cycle).forEach((v, i) => { multiples += `<${name}${i} />` })
+        get(this.variables, cycle).forEach((v, i) => { multiples += `<${name}${i} />` })
 
         // Replace the single <Component /> in the template with the multiples
         template = template.replace(component, multiples)
 
         // Cycle through the cycle variable
-        _.forEach(_.get(this.variables, cycle), (variable, index) => {
+        forEach(get(this.variables, cycle), (variable, index) => {
           // Isolate the component inside a temporary one
-          temporaryComponent = _.get(_components, name)
+          temporaryComponent = get(_components, name)
 
           // Parse the variables of this component with the current variables
           temporaryComponent = this.parseVariables(temporaryComponent, variable)
@@ -61,7 +61,7 @@ class SolidTemplateBuilder {
         })
       } else {
       // Replace the component declaration with its code
-        template = template.replace(component, _.get(_components, name))
+        template = template.replace(component, get(_components, name))
       }
     })
 
@@ -77,14 +77,14 @@ class SolidTemplateBuilder {
     variables = template.match(regex.get.variable)
 
     // Cycle through all the variables that have been found
-    _.forEach(variables, (variable, index) => {
+    forEach(variables, (variable, index) => {
       let key
 
       // Get the key of the variable
       key = variable.replace(regex.clear.variable, '')
 
       // Replace the variable declaration with its key
-      template = template.replace(variable, _.get(_variables, key))
+      template = template.replace(variable, get(_variables, key))
     })
 
     return template
